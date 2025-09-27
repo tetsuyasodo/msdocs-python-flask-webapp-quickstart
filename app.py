@@ -5,7 +5,8 @@ from flask import (Flask, redirect, render_template, request,
 
 app = Flask(__name__)
 
-LOGO_DIR="/mount/svgsodo20250927/share/"
+default_value = '/mount/share'
+LOGO_DIR = os.getenv('LOGO_DIR', default_value)
 
 @app.route('/')
 def index():
