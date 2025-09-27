@@ -5,16 +5,20 @@ from flask import (Flask, redirect, render_template, request,
 
 app = Flask(__name__)
 
+LOGO_DIR="/mount/svgsodo20250927/share/"
 
 @app.route('/')
 def index():
    print('Request for index page received')
-   return render_template('index.html')
+   return render_template('index.html', logo_url="/logo")
 
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
+@app.route('/logo')
+def logo():
+    return send_from_directory(LOGO_DIR, "azure-icon.svg")
 
 @app.route('/hello', methods=['POST'])
 def hello():
@@ -22,7 +26,7 @@ def hello():
 
    if name:
        print('Request for hello page received with name=%s' % name)
-       return render_template('hello.html', name = name)
+       return render_template('hello.html', name = name, logo_url="/logo")
    else:
        print('Request for hello page received with no name or blank name -- redirecting')
        return redirect(url_for('index'))
